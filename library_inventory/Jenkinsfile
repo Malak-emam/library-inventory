@@ -3,12 +3,14 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'library_inventory'  // Replace with your Docker Hub repository name
         DOCKER_IMAGE = 'flask-app'
+        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' // Replace with the ID of the Docker Hub credentials you created
     }
     stages {
         stage('Build') {
             steps {
                 script {
                     echo 'Building Docker Image...'
+                    // Build the Docker image
                     sh 'docker build -t $DOCKER_HUB_REPO/$DOCKER_IMAGE .'
                 }
             }
@@ -17,6 +19,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running Tests...'
+                    // Run tests using the Docker image
                     sh 'docker run --rm $DOCKER_HUB_REPO/$DOCKER_IMAGE pytest'
                 }
             }
@@ -25,7 +28,11 @@ pipeline {
             steps {
                 script {
                     echo 'Pushing Docker Image to Docker Hub...'
-                    sh 'docker push $DOCKER_HUB_REPO/$DOCKER_IMAGE'
+                    // Log in to Docker Hub
+                    withDockerRegistry([credentialsId: "$DOCKER_CREDENTIALS_ID", url: 'https://index.docker.io/v1/']) {
+                        // Push the Docker image to Docker Hub
+                        sh 'docker push $DOCKER_HUB_REPO/$DOCKER_IMAGE'
+                    }
                 }
             }
         }
