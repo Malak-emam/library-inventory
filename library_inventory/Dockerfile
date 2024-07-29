@@ -8,6 +8,9 @@ WORKDIR /app
 COPY library_inventory/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install pytest as well
+RUN pip install --no-cache-dir pytest
+
 # Copy the rest of the application code from the library_inventory directory to the working directory
 COPY library_inventory/ .
 
@@ -18,5 +21,8 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-# Command to run the application
+# Command to run the application by default
 CMD ["flask", "run"]
+
+# Optionally, you can add a test command if needed
+# ENTRYPOINT ["pytest"]
