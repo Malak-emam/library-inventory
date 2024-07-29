@@ -1,19 +1,32 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_HUB_REPO = 'library_inventory'  // Replace with your Docker Hub repository name
+        DOCKER_IMAGE = 'flask-app'
+    }
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                script {
+                    echo 'Building Docker Image...'
+                    sh 'docker build -t $DOCKER_HUB_REPO/$DOCKER_IMAGE .'
+                }
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing...'
+                script {
+                    echo 'Running Tests...'
+                    sh 'docker run --rm $DOCKER_HUB_REPO/$DOCKER_IMAGE pytest'
+                }
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                script {
+                    echo 'Pushing Docker Image to Docker Hub...'
+                    sh 'docker push $DOCKER_HUB_REPO/$DOCKER_IMAGE'
+                }
             }
         }
     }
