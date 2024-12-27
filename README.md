@@ -3,7 +3,6 @@
 The Library Inventory System is an advanced web-based application built to efficiently manage library books, including functionalities for adding, updating, borrowing, and returning books. The system utilizes containerization with Docker, deployment on Kubernetes, and monitoring with Prometheus and Grafana. Infrastructure is provisioned using Terraform, while a CI/CD pipeline is orchestrated with Jenkins.
 
 ---
----
 
 ## Getting Started
 
