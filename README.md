@@ -44,3 +44,11 @@ Ensure the following tools are installed before starting:
    ```bash
    git clone https://github.com/Malak-emam/library-inventory.git
    cd library-inventory
+
+# Library Inventory System Instructions
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+
